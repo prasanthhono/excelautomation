@@ -66,11 +66,13 @@ data.columns.forEach((column, i) => {
   }
   // Lock the header row not to allow user to edit it
   worksheet.getCell(worksheet.getColumn(index).letter+'1').protection = {
-    locked: true
+    locked: false,
+  hidden: true,
   };
   // Lock the column not to allow user to edit it
   worksheet.getColumn(index).protection = {
-    locked: true
+    locked: false,
+  hidden: true,
   };
 
   // Adding the validations to the columns as per the data type
@@ -80,12 +82,11 @@ data.columns.forEach((column, i) => {
       worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
         type: 'whole',
         operator: 'between',
-        formulae: [0, 10],
-        formula1: 0,
-        formula2: 10,
+        // Generate the last number in the range as per the maxLength property defined in the data.json file
+        formulae: [0, Math.pow(10, column.length) - 1],
         showErrorMessage: true,
         errorTitle: 'Invalid Data',
-        error: 'Only numbers are allowed'
+        error: 'Numbers between 0 and ' + (Math.pow(10, column.length) - 1) + ' are allowed'
       };
     }
   } else if (column.dataType === 'text') {
@@ -96,7 +97,7 @@ data.columns.forEach((column, i) => {
         operator: 'lessThan',
         showErrorMessage: true,
         allowBlank: true,
-        formulae: [column.maxLength],
+        formulae: [column.maxLength || column.formula],
         errorTitle: 'Invalid Data',
         error: 'Text length should be less than '+column.maxLength+' characters'
       };
@@ -106,10 +107,10 @@ data.columns.forEach((column, i) => {
     for (let x=2; x<=100; x++) {
       worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
         type: 'date',
-        operator: 'lessThan',
+        operator: column.operator || 'lessThan',
         showErrorMessage: true,
         allowBlank: true,
-        formulae: [new Date(2023,12,12)]
+        formulae: [new Date(column.formula)],
       };
     }
   } else if (column.dataType === 'email') {

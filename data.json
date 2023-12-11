@@ -4,9 +4,8 @@
         {
             "column": "id",
             "dataType": "numeric",
-            "length": 11,
+            "length": 5,
             "primaryKey": true,
-            "autoIncrement": true,
             "header": "Employee Code",
             "required": true,
             "width": 15
@@ -42,7 +41,6 @@
             "column": "name",
             "dataType": "text",
             "length": 255,
-            "maxLength": 10,
             "header": "Full Name",
             "formula": "CONCATENATE(B2,\" \",C2,\" \",D2)",
             "required": true,
@@ -63,6 +61,8 @@
             "length": 255,
             "maxLength": 10,
             "header": "Date of Birth",
+            "operator": "greaterThan",
+            "formula": "01/01/1990",
             "required": true,
             "width": 15
         },
@@ -72,6 +72,8 @@
             "length": 255,
             "maxLength": 10,
             "header": "Date of Joining",
+            "operator": "lessThan",
+            "formula": "01/01/2018",
             "required": true,
             "width": 15
         },
