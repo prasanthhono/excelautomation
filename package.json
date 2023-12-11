@@ -1,0 +1,30 @@
+{
+  "name": "nodeexcel",
+  "version": "1.0.0",
+  "description": "Excel File Generator with Column Validations",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "excelnode"
+  },
+  "keywords": [
+    "excel"
+  ],
+  "author": "Prasanth P R",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0",
+    "exceljs": "^4.4.0",
+    "fs": "^0.0.1-security",
+    "jsonfile": "^6.1.0",
+    "loadash": "^1.0.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "path": "^0.12.7"
+  }
+}

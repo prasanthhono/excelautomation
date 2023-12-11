@@ -1,0 +1,96 @@
+
+{
+    "columns": [
+        {
+            "column": "id",
+            "dataType": "numeric",
+            "length": 11,
+            "primaryKey": true,
+            "autoIncrement": true,
+            "header": "ID",
+            "required": true,
+            "width": 100
+        },
+        {
+            "column": "name",
+            "dataType": "text",
+            "length": 255,
+            "maxLength": 10,
+            "header": "Name",
+            "required": true,
+            "width": 100
+            
+        },
+        {
+            "column": "email",
+            "dataType": "email",
+            "length": 255,
+            "maxLength": 10,
+            "header": "Email",
+            "required": true,
+            "width": 100
+        },
+        {
+            "column": "country",
+            "dataType": "countryList",
+            "length": 255,
+            "header": "Country",
+            "sheet": "Countries",
+            "width": 100
+        },
+        {
+            "column": "state",
+            "dataType": "stateList",
+            "length": 255,
+            "header": "State",
+            "sheet": "States",
+            "width": 100
+        },
+        {
+            "column": "city",
+            "dataType": "cityList",
+            "length": 255,
+            "header": "City",
+            "sheet": "Cities",
+            "width": 100
+        }
+    ],
+    "countries": [
+        { "country": "USA", "countryCode": "US" },
+        { "country": "Canada", "countryCode": "CA" },
+        { "country": "India", "countryCode": "IN" },
+        { "country": "Australia", "countryCode": "AU" },
+        { "country": "New Zealand", "countryCode": "NZ" }
+      ],
+    "states": [
+        { "state": "California", "stateCode": "CA"},
+        { "state": "Texas", "stateCode": "TX"},
+        { "state": "New York", "stateCode": "NY"},
+        { "state": "Florida", "stateCode": "FL"},
+        { "state": "Illinois", "stateCode": "IL"},
+        { "state": "Pennsylvania", "stateCode": "PA"},
+        { "state": "Ohio", "stateCode": "OH"},
+        { "state": "Georgia", "stateCode": "GA"},
+        { "state": "North Carolina", "stateCode": "NC"},
+        { "state": "Vermont", "stateCode": "VT"},
+        { "state": "Wyoming", "stateCode": "WY"}	
+    ],
+    "cities": [
+        {"city": "Los Angeles", "cityCode": "LA"},
+        {"city": "San Diego", "cityCode": "SD"},
+        {"city": "San Jose", "cityCode": "SJ"},
+        {"city": "San Francisco", "cityCode": "SF"},
+        {"city": "Fresno", "cityCode": "FR"},
+        {"city": "Sacramento", "cityCode": "SA"},
+        {"city": "Santa Clarita", "cityCode": "SC"},
+        {"city": "Garden Grove", "cityCode": "GG"},
+        {"city": "Oceanside", "cityCode": "OC"},
+        {"city": "Rancho Cucamonga", "cityCode": "RC"},
+        {"city": "Santa Rosa", "cityCode": "SR"},
+        {"city": "Ontario", "cityCode": "ON"},
+        {"city": "Lancaster", "cityCode": "LA"},
+        {"city": "Elk Grove", "cityCode": "EG"},
+        {"city": "Corona", "cityCode": "CO"},
+        {"city": "Palmdale", "cityCode": "PA"}
+    ]
+}
