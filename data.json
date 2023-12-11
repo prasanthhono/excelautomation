@@ -9,7 +9,7 @@
             "autoIncrement": true,
             "header": "ID",
             "required": true,
-            "width": 100
+            "width": 30
         },
         {
             "column": "name",
@@ -18,7 +18,7 @@
             "maxLength": 10,
             "header": "Name",
             "required": true,
-            "width": 100
+            "width": 30
             
         },
         {
@@ -28,7 +28,7 @@
             "maxLength": 10,
             "header": "Email",
             "required": true,
-            "width": 100
+            "width": 30
         },
         {
             "column": "country",
@@ -36,7 +36,7 @@
             "length": 255,
             "header": "Country",
             "sheet": "Countries",
-            "width": 100
+            "width": 30
         },
         {
             "column": "state",
@@ -44,7 +44,7 @@
             "length": 255,
             "header": "State",
             "sheet": "States",
-            "width": 100
+            "width": 30
         },
         {
             "column": "city",
@@ -52,7 +52,7 @@
             "length": 255,
             "header": "City",
             "sheet": "Cities",
-            "width": 100
+            "width": 30
         }
     ],
     "countries": [

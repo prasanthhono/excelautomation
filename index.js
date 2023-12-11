@@ -35,15 +35,21 @@ worksheet.columns = data.columns;
 worksheet.views = [
   { state: 'frozen', xSplit: 0, ySplit: 1 }
 ];
+// Locking the header row
+worksheet.getRow(1).state = 'frozen';
+// Locking the first column
+
 data.columns.forEach((column, i) => {
   let index = i + 1;
+  worksheet.getColumn(index).locked = true;
+
   // worksheet.getColumn(index).numFmt = '#,##0.00';
   worksheet.getColumn(index).alignment = { horizontal: 'left' };
   worksheet.getColumn(index).font = { name: 'Arial', size: 10, bold: true };
   // Add column width from width property defined in the data.json file
   worksheet.getColumn(index).width = column.width;
   // if column is mandatory then add a star to the header
-  worksheet.getColumn(index).header = column.header + (column.required ? '*' : '');
+  worksheet.getColumn(index).header = column.header + (column.required ? ' *' : '');
   // if column is mandatory then add background color to the header as light green
   if (column.required) {
     /* worksheet.getColumn(index).fill = {
@@ -60,6 +66,10 @@ data.columns.forEach((column, i) => {
   }
   // Lock the header row not to allow user to edit it
   worksheet.getCell(worksheet.getColumn(index).letter+'1').protection = {
+    locked: true
+  };
+  // Lock the column not to allow user to edit it
+  worksheet.getColumn(index).protection = {
     locked: true
   };
 
@@ -127,23 +137,30 @@ data.columns.forEach((column, i) => {
         }
       });
       const range = worksheet.getColumn(index).letter + '2:' + worksheet.getColumn(index).letter + '1048576';
-      worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
-        type: 'list',
-        allowBlank: true,
-        formulae: ['"' + values.join(',') + '"'],
-        showErrorMessage: true,
-        errorTitle: 'Invalid Data',
-        error: `Only ${column.dataType} list is allowed`,
-        sqref: range
-      };
-      // Provide a reference to the list sheet with column index from row to row
-      worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation.value = {
-        list: [
-          { formula: 'Countries!$A$2:$A$'+countrySheet.rowCount },
-          { formula: 'States!$A$2:$A$'+stateSheet.rowCount },
-          { formula: 'Cities!$A$2:$A$'+citySheet.rowCount }
-        ]
-      };
+      if (column.dataType !== 'countryList')
+      {
+        worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
+          type: 'list',
+          allowBlank: true,
+          formulae: ['"' + values.join(',') + '"'],
+          showErrorMessage: true,
+          errorTitle: 'Invalid Data',
+          error: `Only ${column.dataType} list is allowed`,
+          sqref: range
+        };
+      }
+        // Provide a reference to the list sheet with column index from row to row
+      else {
+        worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
+          type: 'list',
+          allowBlank: true,
+          formulae: ['Countries!$A$2:$A$10'],
+          showErrorMessage: true,
+          errorTitle: 'Invalid Data',
+          error: `Only ${column.dataType} list is allowed`,
+          sqref: range
+        };
+      }
     }
   }
 
