@@ -123,45 +123,21 @@ data.columns.forEach((column, i) => {
         formulae: [50]
       };
     }
-  } else if (column.dataType === 'countryList' || column.dataType === 'stateList' || column.dataType === 'cityList') {
+  } else if (column.dataType === 'list') {
     // Add the validations to all the cells in the column for first 100 rows
     for (let x=2; x<=100; x++) {
-      const list = (column.dataType === 'countryList') ? countrySheet.getColumn('country') :
-                 (column.dataType === 'stateList') ? stateSheet.getColumn('state') :
-                 citySheet.getColumn('city');
+      const range = worksheet.getColumn(index).letter + '2:' + worksheet.getColumn(index).letter + '1048';
 
-      const values = [];
-      list.eachCell((cell, rowNumber) => {
-        if (rowNumber > 1 && cell.value) {
-          values.push(cell.value);
-        }
-      });
-      const range = worksheet.getColumn(index).letter + '2:' + worksheet.getColumn(index).letter + '1048576';
-      if (column.dataType !== 'countryList')
-      {
-        worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
-          type: 'list',
-          allowBlank: true,
-          formulae: ['"' + values.join(',') + '"'],
-          showErrorMessage: true,
-          errorTitle: 'Invalid Data',
-          error: `Only ${column.dataType} list is allowed`,
-          sqref: range
-        };
+      worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
+        type: 'list',
+        allowBlank: true,
+        formulae: [column.formula],
+        showErrorMessage: true,
+        errorTitle: 'Invalid Data',
+        error: `Only ${column.sheet} list is allowed`,
+        sqref: range
+      };
       }
-        // Provide a reference to the list sheet with column index from row to row
-      else {
-        worksheet.getCell(worksheet.getColumn(index).letter+x).dataValidation = {
-          type: 'list',
-          allowBlank: true,
-          formulae: ['Countries!$A$2:$A$10'],
-          showErrorMessage: true,
-          errorTitle: 'Invalid Data',
-          error: `Only ${column.dataType} list is allowed`,
-          sqref: range
-        };
-      }
-    }
   }
 
 });

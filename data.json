@@ -7,19 +7,46 @@
             "length": 11,
             "primaryKey": true,
             "autoIncrement": true,
-            "header": "ID",
+            "header": "Employee Code",
             "required": true,
-            "width": 30
+            "width": 15
         },
         {
             "column": "name",
             "dataType": "text",
             "length": 255,
             "maxLength": 10,
-            "header": "Name",
+            "header": "First Name",
+            "required": true,
+            "width": 20
+            
+        },
+        {
+            "column": "name",
+            "dataType": "text",
+            "length": 255,
+            "maxLength": 10,
+            "header": "Middle Name",
+            "width": 20
+        },
+        {
+            "column": "name",
+            "dataType": "text",
+            "length": 255,
+            "maxLength": 10,
+            "header": "Last Name",
+            "required": true,
+            "width": 20
+        },
+        {
+            "column": "name",
+            "dataType": "text",
+            "length": 255,
+            "maxLength": 10,
+            "header": "Full Name",
+            "formula": "CONCATENATE(B2,\" \",C2,\" \",D2)",
             "required": true,
             "width": 30
-            
         },
         {
             "column": "email",
@@ -28,69 +55,61 @@
             "maxLength": 10,
             "header": "Email",
             "required": true,
-            "width": 30
+            "width": 20
+        },
+        {
+            "column": "dob",
+            "dataType": "date",
+            "length": 255,
+            "maxLength": 10,
+            "header": "Date of Birth",
+            "required": true,
+            "width": 15
+        },
+        {
+            "column": "doj",
+            "dataType": "date",
+            "length": 255,
+            "maxLength": 10,
+            "header": "Date of Joining",
+            "required": true,
+            "width": 15
         },
         {
             "column": "country",
-            "dataType": "countryList",
+            "dataType": "list",
             "length": 255,
             "header": "Country",
             "sheet": "Countries",
-            "width": 30
+            "formula": "Countries!$A$2:$A$100",
+            "width": 15
         },
         {
             "column": "state",
-            "dataType": "stateList",
+            "dataType": "list",
             "length": 255,
             "header": "State",
             "sheet": "States",
-            "width": 30
+            "formula": "States!$A$2:$A$100",
+            "width": 15
         },
         {
             "column": "city",
-            "dataType": "cityList",
+            "dataType": "list",
             "length": 255,
             "header": "City",
             "sheet": "Cities",
-            "width": 30
+            "formula": "Cities!$A$2:$A$100",
+            "width": 15
         }
     ],
     "countries": [
-        { "country": "USA", "countryCode": "US" },
-        { "country": "Canada", "countryCode": "CA" },
-        { "country": "India", "countryCode": "IN" },
-        { "country": "Australia", "countryCode": "AU" },
-        { "country": "New Zealand", "countryCode": "NZ" }
+        { "country": "India", "countryCode": "IN" }
       ],
     "states": [
-        { "state": "California", "stateCode": "CA"},
-        { "state": "Texas", "stateCode": "TX"},
-        { "state": "New York", "stateCode": "NY"},
-        { "state": "Florida", "stateCode": "FL"},
-        { "state": "Illinois", "stateCode": "IL"},
-        { "state": "Pennsylvania", "stateCode": "PA"},
-        { "state": "Ohio", "stateCode": "OH"},
-        { "state": "Georgia", "stateCode": "GA"},
-        { "state": "North Carolina", "stateCode": "NC"},
-        { "state": "Vermont", "stateCode": "VT"},
-        { "state": "Wyoming", "stateCode": "WY"}	
+        { "state": "Maharashtra", "stateCode": "MH"}	
     ],
     "cities": [
-        {"city": "Los Angeles", "cityCode": "LA"},
-        {"city": "San Diego", "cityCode": "SD"},
-        {"city": "San Jose", "cityCode": "SJ"},
-        {"city": "San Francisco", "cityCode": "SF"},
-        {"city": "Fresno", "cityCode": "FR"},
-        {"city": "Sacramento", "cityCode": "SA"},
-        {"city": "Santa Clarita", "cityCode": "SC"},
-        {"city": "Garden Grove", "cityCode": "GG"},
-        {"city": "Oceanside", "cityCode": "OC"},
-        {"city": "Rancho Cucamonga", "cityCode": "RC"},
-        {"city": "Santa Rosa", "cityCode": "SR"},
-        {"city": "Ontario", "cityCode": "ON"},
-        {"city": "Lancaster", "cityCode": "LA"},
-        {"city": "Elk Grove", "cityCode": "EG"},
-        {"city": "Corona", "cityCode": "CO"},
-        {"city": "Palmdale", "cityCode": "PA"}
+        {"city": "Mumbai", "cityCode": "MUM"}
     ]
 }
