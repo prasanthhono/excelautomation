@@ -1,6 +1,6 @@
 
 {
-    "columns": [
+    "employees": [
         {
             "column": "id",
             "dataType": "numeric",
@@ -62,7 +62,7 @@
             "maxLength": 10,
             "header": "Date of Birth",
             "operator": "greaterThan",
-            "formula": "01/01/1990",
+            "formula": [1990, 1, 1],
             "required": true,
             "width": 15
         },
@@ -73,9 +73,18 @@
             "maxLength": 10,
             "header": "Date of Joining",
             "operator": "lessThan",
-            "formula": "01/01/2018",
+            "formula": [2018, 1, 1],
             "required": true,
             "width": 15
+        },
+        {
+            "column": "phone",
+            "dataType": "text",
+            "length": 10,
+            "maxLength": 10,
+            "header": "Phone Number",
+            "required": true,
+            "width": 20
         },
         {
             "column": "country",
@@ -83,7 +92,7 @@
             "length": 255,
             "header": "Country",
             "sheet": "Countries",
-            "formula": "Countries!$A$2:$A$100",
+            "formula": "Countries!$A$2:$A$1024",
             "width": 15
         },
         {
@@ -92,7 +101,7 @@
             "length": 255,
             "header": "State",
             "sheet": "States",
-            "formula": "States!$A$2:$A$100",
+            "formula": "States!$A$2:$A$1024",
             "width": 15
         },
         {
@@ -101,7 +110,25 @@
             "length": 255,
             "header": "City",
             "sheet": "Cities",
-            "formula": "Cities!$A$2:$A$100",
+            "formula": "Cities!$A$2:$A$1024",
+            "width": 15
+        },
+        {
+            "column": "salary",
+            "dataType": "numeric",
+            "length": 10,
+            "header": "Monthly Salary",
+            "style": { "numFmt": "0.0#,K" },
+            "required": true,
+            "width": 15
+        },
+        {
+            "column": "cgpa",
+            "dataType": "decimal",
+            "length": 5,
+            "header": "CGPA",
+            "formula": [4.5, 10],
+            "required": true,
             "width": 15
         }
     ],
@@ -113,5 +140,79 @@
     ],
     "cities": [
         {"city": "Mumbai", "cityCode": "MUM"}
+    ],
+    "sheets": [
+        {
+            "name": "Country",
+            "color": "C9DAF8",
+            "columns": [
+                {
+                    "column": "country",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "Country",
+                    "required": true,
+                    "width": 20
+                },
+                {
+                    "column": "countryCode",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "Country Code",
+                    "required": true,
+                    "width": 20
+                }
+            ]
+        },
+        {
+            "name": "State",
+            "color": "F4CCCC",
+            "columns": [
+                {
+                    "column": "state",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "State",
+                    "required": true,
+                    "width": 20
+                },
+                {
+                    "column": "stateCode",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "State Code",
+                    "required": true,
+                    "width": 20
+                }
+            ]
+        },
+        {
+            "name": "City",
+            "color": "D9EAD3",
+            "columns": [
+                {
+                    "column": "city",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "City",
+                    "required": true,
+                    "width": 20
+                },
+                {
+                    "column": "cityCode",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "City Code",
+                    "required": true,
+                    "width": 20
+                }
+            ]
+        }
     ]
 }
