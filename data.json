@@ -1,149 +1,150 @@
-
 {
-    "employees": [
-        {
-            "column": "id",
-            "dataType": "numeric",
-            "length": 5,
-            "primaryKey": true,
-            "header": "Employee Code",
-            "required": true,
-            "width": 15
+    "name": "HRD Employee Master Data",
+    "description": "HRD Employee Master Data",
+    "version": "1.0",
+    "author": "HONO HR",
+    "website": "http://www.hono.ai",
+    "category": "Human Resources",
+    "sheets":
+    {
+        "employees": {
+            "name": "Employees",
+            "color": "FCE4D6",
+            "columns": [
+                {
+                    "column": "id",
+                    "dataType": "numeric",
+                    "length": 5,
+                    "primaryKey": true,
+                    "header": "Employee Code",
+                    "required": true,
+                    "width": 15
+                },
+                {
+                    "column": "name",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "First Name",
+                    "required": true,
+                    "width": 20
+                    
+                },
+                {
+                    "column": "name",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "Middle Name",
+                    "width": 20
+                },
+                {
+                    "column": "name",
+                    "dataType": "text",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "Last Name",
+                    "required": true,
+                    "width": 20
+                },
+                {
+                    "column": "name",
+                    "dataType": "text",
+                    "length": 255,
+                    "header": "Full Name",
+                    "formula": "CONCATENATE(B2,\" \",C2,\" \",D2)",
+                    "required": true,
+                    "width": 30
+                },
+                {
+                    "column": "email",
+                    "dataType": "email",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "Email",
+                    "required": true,
+                    "width": 20
+                },
+                {
+                    "column": "dob",
+                    "dataType": "date",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "Date of Birth",
+                    "operator": "greaterThan",
+                    "formula": [1990, 1, 1],
+                    "required": true,
+                    "width": 15
+                },
+                {
+                    "column": "doj",
+                    "dataType": "date",
+                    "length": 255,
+                    "maxLength": 10,
+                    "header": "Date of Joining",
+                    "operator": "lessThan",
+                    "formula": [2018, 1, 1],
+                    "required": true,
+                    "width": 15
+                },
+                {
+                    "column": "phone",
+                    "dataType": "text",
+                    "length": 10,
+                    "maxLength": 10,
+                    "header": "Phone Number",
+                    "required": true,
+                    "width": 20
+                },
+                {
+                    "column": "country",
+                    "dataType": "list",
+                    "length": 255,
+                    "header": "Country",
+                    "sheet": "Countries",
+                    "formula": "Countries!$A$7:$A$1024",
+                    "width": 15
+                },
+                {
+                    "column": "state",
+                    "dataType": "list",
+                    "length": 255,
+                    "header": "State",
+                    "sheet": "States",
+                    "formula": "States!$A$7:$A$1024",
+                    "width": 15
+                },
+                {
+                    "column": "city",
+                    "dataType": "list",
+                    "length": 255,
+                    "header": "City",
+                    "sheet": "Cities",
+                    "formula": "Cities!$A$7:$A$1024",
+                    "width": 15
+                },
+                {
+                    "column": "salary",
+                    "dataType": "numeric",
+                    "length": 10,
+                    "header": "Monthly Salary",
+                    "style": { "numFmt": "0.0#,K" },
+                    "required": true,
+                    "width": 15
+                },
+                {
+                    "column": "cgpa",
+                    "dataType": "decimal",
+                    "length": 5,
+                    "header": "CGPA",
+                    "formula": [4.5, 10],
+                    "required": true,
+                    "width": 15
+                }
+            ]
         },
-        {
-            "column": "name",
-            "dataType": "text",
-            "length": 255,
-            "maxLength": 10,
-            "header": "First Name",
-            "required": true,
-            "width": 20
-            
-        },
-        {
-            "column": "name",
-            "dataType": "text",
-            "length": 255,
-            "maxLength": 10,
-            "header": "Middle Name",
-            "width": 20
-        },
-        {
-            "column": "name",
-            "dataType": "text",
-            "length": 255,
-            "maxLength": 10,
-            "header": "Last Name",
-            "required": true,
-            "width": 20
-        },
-        {
-            "column": "name",
-            "dataType": "text",
-            "length": 255,
-            "header": "Full Name",
-            "formula": "CONCATENATE(B2,\" \",C2,\" \",D2)",
-            "required": true,
-            "width": 30
-        },
-        {
-            "column": "email",
-            "dataType": "email",
-            "length": 255,
-            "maxLength": 10,
-            "header": "Email",
-            "required": true,
-            "width": 20
-        },
-        {
-            "column": "dob",
-            "dataType": "date",
-            "length": 255,
-            "maxLength": 10,
-            "header": "Date of Birth",
-            "operator": "greaterThan",
-            "formula": [1990, 1, 1],
-            "required": true,
-            "width": 15
-        },
-        {
-            "column": "doj",
-            "dataType": "date",
-            "length": 255,
-            "maxLength": 10,
-            "header": "Date of Joining",
-            "operator": "lessThan",
-            "formula": [2018, 1, 1],
-            "required": true,
-            "width": 15
-        },
-        {
-            "column": "phone",
-            "dataType": "text",
-            "length": 10,
-            "maxLength": 10,
-            "header": "Phone Number",
-            "required": true,
-            "width": 20
-        },
-        {
-            "column": "country",
-            "dataType": "list",
-            "length": 255,
-            "header": "Country",
-            "sheet": "Countries",
-            "formula": "Countries!$A$2:$A$1024",
-            "width": 15
-        },
-        {
-            "column": "state",
-            "dataType": "list",
-            "length": 255,
-            "header": "State",
-            "sheet": "States",
-            "formula": "States!$A$2:$A$1024",
-            "width": 15
-        },
-        {
-            "column": "city",
-            "dataType": "list",
-            "length": 255,
-            "header": "City",
-            "sheet": "Cities",
-            "formula": "Cities!$A$2:$A$1024",
-            "width": 15
-        },
-        {
-            "column": "salary",
-            "dataType": "numeric",
-            "length": 10,
-            "header": "Monthly Salary",
-            "style": { "numFmt": "0.0#,K" },
-            "required": true,
-            "width": 15
-        },
-        {
-            "column": "cgpa",
-            "dataType": "decimal",
-            "length": 5,
-            "header": "CGPA",
-            "formula": [4.5, 10],
-            "required": true,
-            "width": 15
-        }
-    ],
-    "countries": [
-        { "country": "India", "countryCode": "IN" }
-      ],
-    "states": [
-        { "state": "Maharashtra", "stateCode": "MH"}	
-    ],
-    "cities": [
-        {"city": "Mumbai", "cityCode": "MUM"}
-    ],
-    "sheets": [
-        {
-            "name": "Country",
+        "countries": {
+            "name": "Countries",
             "color": "C9DAF8",
             "columns": [
                 {
@@ -164,10 +165,12 @@
                     "required": true,
                     "width": 20
                 }
-            ]
-        },
-        {
-            "name": "State",
+            ],
+            "data":[
+            { "country": "India", "countryCode": "IN" }
+        ]},
+        "states": {
+            "name": "States",
             "color": "F4CCCC",
             "columns": [
                 {
@@ -188,10 +191,13 @@
                     "required": true,
                     "width": 20
                 }
+            ],
+            "data":[
+                { "state": "Maharashtra", "stateCode": "MH"}	
             ]
         },
-        {
-            "name": "City",
+        "cities":{
+            "name": "Cities",
             "color": "D9EAD3",
             "columns": [
                 {
@@ -212,7 +218,10 @@
                     "required": true,
                     "width": 20
                 }
+            ],
+            "data":[
+                { "city": "Mumbai", "cityCode": "MUM"}
             ]
         }
-    ]
+    }
 }
