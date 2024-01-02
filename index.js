@@ -11,13 +11,13 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.get('/metadata', async (req, res) => {
+app.post('/metadata', async (req, res) => {
   try {
     var metadata = req.body;
     // if metadata is null, read from data.json
     // const metadata = require('./data.json');
     //if (!metadata) {
-      metadata = require('./data.json');
+    // metadata = require('./data.json');
     //}
     const workbook = createWorkbook(metadata);
 
@@ -92,11 +92,27 @@ function addSheet(workbook, sheetData) {
 
       // Lock the header row not to allow the user to edit it
       worksheet.getCell(`${columnLetter}1`).protection = { locked: true, hidden: true };
+      worksheet.getCell(`${columnLetter}1`).dataValidation = {
+        type: 'whole',
+        operator: 'between',
+        formulae: [1, 1],
+        showErrorMessage: true,
+        errorTitle: 'Invalid Data',
+        error: 'Cannot edit this cell',
+      };
 
+      // Lock the details rows not to allow the user to edit them
       for (let i = rowIndex; i <= rowIndex + 4; i++) {
-        worksheet.getRow(i).protection = {
-          locked: true,
-        };
+        for (let j = 1; j <= sheetData.columns.length; j++) {
+          worksheet.getCell(`${columnLetter}${i}`).dataValidation = {
+            type: 'whole',
+            operator: 'between',
+            formulae: [1, 1],
+            showErrorMessage: true,
+            errorTitle: 'Invalid Data',
+            error: 'Cannot edit this cell',
+          };
+        }
       }
 
       // Adding data validations based on column data type
