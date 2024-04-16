@@ -16,6 +16,7 @@
                     "dataType": "numeric",
                     "length": 5,
                     "primaryKey": true,
+                    "unique": true,
                     "header": "Employee Code",
                     "required": true,
                     "width": 15
@@ -25,6 +26,12 @@
                     "dataType": "text",
                     "length": 255,
                     "maxLength": 10,
+                    "minLength": 5, // For all columns to ensure they type the min chars - V2
+                    "isSpaceAllowed": false, // For a code column to ensure users don't enter spaces - V2
+                    "tableName": "employees", // Connect SQL Tab - V2
+                    "tableFields": ["name"], // Use this Column for LIST instead of excel sheet - V2
+                    "default": "John Doe",// By default when a row gets created - V3
+                    "inputMask": "^[a-zA-Z ]*$", // Regex to capture pattern Ex: Passport Number - V2
                     "header": "First Name",
                     "required": true,
                     "width": 20
