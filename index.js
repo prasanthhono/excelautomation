@@ -48,7 +48,7 @@ app.get('/metadata', async (req, res) => {
         "sheets":
         {
             "offical": {
-                "name": "Offical Data",
+                "name": "Official Data",
                 "color": "FCE4D6",
                 "columns": processedData.template_data
             }
@@ -182,14 +182,14 @@ async function addSheet(workbook, sheetData) {
       worksheet.getColumn(index + 1).width = column.width || column.header.length * 2 + 5;
 
       // Details Rows
-      for (let i = 0; i < 5; i++) {
+      /*for (let i = 0; i < 5; i++) {
         const cell = worksheet.getCell(`${columnLetter}${rowIndex + i}`);
         cell.value = i === 0 ? `Data Type: ${column.dataType}` : i === 1 ? `Required: ${column.required ? 'TRUE' : 'FALSE'}` : i === 2 ? `Min Length: ${column.minLength || ''}` : i === 3 ? `Max Length: ${column.maxLength || ''}` : i === 4 ? `Formula: ${column.formula || 'NA'}` : `Operator: ${column.operator || 'NA'}`;
         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: i === 0 ? { argb: 'D9D2E9' } : i === 1 ? { argb: 'FFF2CC' } : i === 2 ? { argb: 'F4CCCC' } : i === 3 ? { argb: 'C9DAF8' } : i === 4 ? { argb: 'B6D7A8' } : { argb: 'FFC000' } };
 
         // Lock the details rows not to allow the user to edit them
         cell.protection = { locked: true, hidden: true };
-      }
+      }*/
 
       // Lock the header row not to allow the user to edit it
       worksheet.getCell(`${columnLetter}1`).protection = { locked: true, hidden: true };
@@ -305,20 +305,31 @@ async function addSheet(workbook, sheetData) {
           if (column.master) {
             column.master = Object.values(column.master);
           }
-          // convert the master data to a string
-          column.master = column.master.join(',');
-          column.master = column.master.replace(/'/g, '"');
-          // convert ['one', 'two', 'three', 'four'] to '"One,Two,Three,Four"'
-          column.master = column.master.split(',').map((item) => item.charAt(0).toUpperCase() + item.slice(1)).join(',');
+          if (column.master && column.master.length > 0) {
+            // Add the list of values to Data Sheet in the same column name and provide the forumulae as the list of values
+            const dataSheet = workbook.getWorksheet('ListData') || workbook.addWorksheet('ListData');
+            // for all rows in column master loop through and add to the data sheet
+            for (let i = 0; i < column.master.length; i++) {
+              // add the values to the data sheet
+              const cell = dataSheet.getCell(`${columnLetter}${i+1}`);
+              cell.value = column.master[i];
+            }
+            column.formula = `=ListData!$${columnLetter}$1:$${columnLetter}$${column.master.length+1}`;
 
-          console.log('column.master', `"${column.master}"`);
+            // convert the master data to a string
+            // column.master = column.master.join(',');
+            // column.master = column.master.replace(/'/g, '"');
+            // convert ['one', 'two', 'three', 'four'] to '"One,Two,Three,Four"'
+            // column.master = column.master.split(',').map((item) => item.charAt(0).toUpperCase() + item.slice(1)).join(',');
 
-          worksheet.dataValidations.add(range,{
-            type: 'list',
-            allowBlank: true,
-            formulae: [`"${column.master}"`],//column.master,
-            sqref: range,
-          });
+            worksheet.dataValidations.add(range,{
+              type: 'list',
+              allowBlank: true,
+              formulae: [column.formula],
+              // formulae: ['"One,Two"'],
+              sqref: range,
+            });
+          }
         }
 
       } else if (column.dataType === 'phone') {
@@ -332,6 +343,16 @@ async function addSheet(workbook, sheetData) {
           error: `${column.header} text length should be less than ${column.maxLength} characters`,
           sqref: range,
         });
+      }
+
+      // Details Rows
+      for (let i = 0; i < 5; i++) {
+        const cell = worksheet.getCell(`${columnLetter}${rowIndex + i}`);
+        cell.value = i === 0 ? `Data Type: ${column.dataType}` : i === 1 ? `Required: ${column.required ? 'TRUE' : 'FALSE'}` : i === 2 ? `Min Length: ${column.minLength || ''}` : i === 3 ? `Max Length: ${column.maxLength || ''}` : i === 4 ? `Formula: ${column.formula || 'NA'}` : `Operator: ${column.operator || 'NA'}`;
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: i === 0 ? { argb: 'D9D2E9' } : i === 1 ? { argb: 'FFF2CC' } : i === 2 ? { argb: 'F4CCCC' } : i === 3 ? { argb: 'C9DAF8' } : i === 4 ? { argb: 'B6D7A8' } : { argb: 'FFC000' } };
+
+        // Lock the details rows not to allow the user to edit them
+        cell.protection = { locked: true, hidden: true };
       }
     });
   }
