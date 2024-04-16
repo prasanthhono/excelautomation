@@ -27,12 +27,14 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.get('/metadata', async (req, res) => {
+app.post('/metadata', async (req, res) => {
   try {
     metadata = req.body;
-    // call getDataFromSQL() to get the data from SQL Server by await and async
     if (!metadata) {
       metadata = JSON.parse(processedData);
+    }
+    else {
+      processedData = metadata;
     }
 
     if (metadata)
@@ -324,6 +326,9 @@ async function addSheet(workbook, sheetData) {
 
             worksheet.dataValidations.add(range,{
               type: 'list',
+              error: 'Please use the drop down to select a valid value',
+              errorTitle: 'Invalid Selection',
+              showErrorMessage: true,
               allowBlank: true,
               formulae: [column.formula],
               // formulae: ['"One,Two"'],
@@ -360,71 +365,6 @@ async function addSheet(workbook, sheetData) {
   if (sheetData.data && sheetData.data.length > 0) {
     worksheet.addRows(sheetData.data);
   }
-}
-
-// Write a function to establish SQL connection and query a table and return the data
-// Write an async function to call the above function and return the data
-async function getDataFromSQL(res) {
-  
-  new mssql.ConnectionPool(config).connect().then((pool) => {
-    console.log('Connected to the database');
-
-    // Query the table and return the data in JSON format
-    return pool.query`SELECT	ColumnName AS [column],
-        FieldLabel AS [header],
-        FieldOrder AS [order],
-        DataType AS [dataType],
-        FieldType AS [fieldType],
-        MasterName AS [listTable],
-        MinLength AS [minLength],
-        MaxLength AS [maxLength],
-        ColumnName AS [listColumn],
-        [Rule] AS [rule],
-        IsUnique AS [unique],
-        IsRequired AS [required]
-    FROM FieldMaster
-    WHERE FormGroup = 7
-    AND IsActive = 1 `;
-  })
-  .then((result) => {
-    // Convert the result to JSON
-    const jsonData = JSON.stringify(result.recordset);
-    // Write to a json file
-    /* const randomNumber = Math.floor(Math.random() * 1000) + 1;
-    const fileName = `OfficialData_${randomNumber}.json`;
-    fs.writeFile(fileName, jsonData, 'utf8', (err) => {
-      if (err) {
-        console.error('Error writing to json file:', err);
-      }
-    }); */
-    // Modify the json data to match the metadata format
-    const newData = JSON.parse(jsonData);
-    const metadata = {
-      "name": "HRD Employee Master Data",
-      "description": "HRD Employee Master Data",
-      "version": "1.0",
-      "author": "HONO HR",
-      "website": "http://www.hono.ai",
-      "category": "Human Resources",
-      "sheets":
-      {
-          "offical": {
-              "name": "Offical Data",
-              "color": "FCE4D6",
-              "columns": newData
-          }
-      }
-    };
-
-    generateMetaData(metadata, res);	
-  })
-  .catch((err) => {
-    console.error('Error connecting or executing the query:', err);
-  })
-  .finally((pool) => {
-    // Close the connection
-    // mssql.close();
-  });
 }
 
 // Function to execute a query
