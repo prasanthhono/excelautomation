@@ -27,13 +27,33 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.post('/metadata', async (req, res) => {
+app.get('/metadata', async (req, res) => {
   try {
     metadata = req.body;
     // call getDataFromSQL() to get the data from SQL Server by await and async
+    if (!metadata) {
+      metadata = JSON.parse(processedData);
+    }
+
     if (metadata)
     {
-      metadata = JSON.parse(processedData);
+      // metadata = JSON.parse(processedData);
+      metadata = {
+        "name": processedData.fileName,
+        "description": "HRD Employee Master Data",
+        "version": "1.0",
+        "author": "HONO HR",
+        "website": "http://www.hono.ai",
+        "category": "Human Resources",
+        "sheets":
+        {
+            "offical": {
+                "name": "Offical Data",
+                "color": "FCE4D6",
+                "columns": processedData.template_data
+            }
+        }
+      };
       await generateMetaData(metadata, res);
       // res.send(processedData);
     }
@@ -64,34 +84,41 @@ async function generateMetaData(metadata, res) {
 }
 
 async function processSheet(metadata, sheetData) {
-  let queries = [];
   if (sheetData.columns && sheetData.columns.length > 0) {
     sheetData.columns.forEach(async (column) => {
       if (column.fieldType != 'Readonly') {
-      column.dataType = column.fieldType? column.fieldType.toLowerCase() : column.dataType.toLowerCase();
+      column.dataType = column.fieldType? column.fieldType.toLowerCase() : column.datatype.toLowerCase();
       }
       else {
-        column.dataType = column.dataType.toLowerCase();
+        column.dataType = column.datatype.toLowerCase();
       }
       if (!column.formula) {
         column.formula = '';
       }
-      if ((column.dataType === 'list' || column.dataType === 'dropdown') && column.listTable && column.listColumn && column.listTable != 'rule') {
+      if(column.minlength) {
+        column.minLength = column.minlength;
+      }
+      if(column.maxlength) {
+        column.maxLength = column.maxlength;
+      }
+      if (column.required == 'Mandatory') {
+        column.required = 'TRUE';
+      }
+      else {
+        column.required = null;
+      }
+
+      if (column.label) {
+        column.header = column.label;
+      }
+
+      if (column.dataType === 'master data') {
+        column.dataType = 'list';
         // column.formula = getListDataFromSQL(column.listTable, column.listColumn);
-        const query = `SELECT [${column.listColumn}] FROM [${column.listTable}]`;
-        queries.push(query);
+        // const query = `SELECT [${column.listColumn}] FROM [${column.listTable}]`;
+        // queries.push(query);
       }
     });
-  }
-  try {
-  // Execute all queries in parallel
-  const results = await Promise.all(queries.map(query => executeQuery(query)));
-  return { success: true, results };
-  }
-  catch (error) {
-    console.error('Error executing queries:', error);
-    // res.status(500).json({ success: false, error: 'Internal Server Error' });
-    return { success: false, error: 'Internal Server Error' };
   }
 }
 
@@ -152,7 +179,7 @@ async function addSheet(workbook, sheetData) {
       headerCell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       headerCell.alignment = { vertical: 'middle', horizontal: 'center' };
       headerCell.wrapText = true;
-      worksheet.getColumn(index + 1).width = column.width;
+      worksheet.getColumn(index + 1).width = column.width || column.header.length * 2 + 5;
 
       // Details Rows
       for (let i = 0; i < 5; i++) {
@@ -263,17 +290,26 @@ async function addSheet(workbook, sheetData) {
           sqref: range,
         });
       } else if (column.dataType === 'list' || column.dataType === 'dropdown') {
-        if (column.listColumn != 'Role_Code')
+        if (column.listColumn == 'Role_Code')
         {
           console.log('column.listColumn', column.listColumn);
         }
         else {
           // use listTable and listColumn and fetch the values from the table by connecting to the database and create as a list and pass to the formulae
-          
+          /*"master":{
+            "1":"male",
+            "2":"female",
+            "3":"transgender"
+          },*/
+          // convert column master data from object to array of values
+          if (column.master) {
+            column.master = Object.values(column.master);
+          }
+
           worksheet.dataValidations.add(range,{
             type: 'list',
             allowBlank: true,
-            formulae: [column.formula],
+            formulae: column.master,
             sqref: range,
           });
         }
