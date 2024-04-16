@@ -30,18 +30,16 @@ app.listen(PORT, () => {
 app.post('/metadata', async (req, res) => {
   try {
     metadata = req.body;
+    let excelData = metadata;
     if (!metadata) {
-      metadata = JSON.parse(processedData);
-    }
-    else {
-      processedData = metadata;
+      excelData = JSON.parse(processedData);
     }
 
     if (metadata)
     {
       // metadata = JSON.parse(processedData);
       metadata = {
-        "name": processedData.fileName,
+        "name": excelData.fileName,
         "description": "HRD Employee Master Data",
         "version": "1.0",
         "author": "HONO HR",
@@ -49,10 +47,10 @@ app.post('/metadata', async (req, res) => {
         "category": "Human Resources",
         "sheets":
         {
-            "offical": {
+            "official": {
                 "name": "Official Data",
                 "color": "FCE4D6",
-                "columns": processedData.template_data
+                "columns": excelData.template_data
             }
         }
       };
