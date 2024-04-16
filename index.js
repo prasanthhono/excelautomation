@@ -305,11 +305,18 @@ async function addSheet(workbook, sheetData) {
           if (column.master) {
             column.master = Object.values(column.master);
           }
+          // convert the master data to a string
+          column.master = column.master.join(',');
+          column.master = column.master.replace(/'/g, '"');
+          // convert ['one', 'two', 'three', 'four'] to '"One,Two,Three,Four"'
+          column.master = column.master.split(',').map((item) => item.charAt(0).toUpperCase() + item.slice(1)).join(',');
+
+          console.log('column.master', `"${column.master}"`);
 
           worksheet.dataValidations.add(range,{
             type: 'list',
             allowBlank: true,
-            formulae: column.master,
+            formulae: [`"${column.master}"`],//column.master,
             sqref: range,
           });
         }
