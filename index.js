@@ -2,26 +2,16 @@ const Excel = require('exceljs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mssql = require('mssql');
-const fs = require('fs');
-const e = require('express');
 // Import processedData.json file
 const processedData = require('./processedData.json');
 
 const app = express();
 const PORT = 5000;
-const config = {
-  user: 'SMS1018',
-  password: 'T98WULvxxVfn1wteetjf',
-  server: '172.16.20.200',
-  database: 'Honohr_Nbcbearings',
-  port: 1433,
-  options: {
-    encrypt: false, // Use this if you're on Windows Azure
-    trustServerCertificate: true, // Accept self-signed certificates
-  },
-};
 
-app.use(bodyParser.json());
+app.use(express.json({limit: '1mb'}));
+app.use(express.urlencoded({limit: '1mb'}));
+app.use(bodyParser.json({limit: '1mb'}));
+app.use(bodyParser.urlencoded({limit: '1mb', extended: true}));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
@@ -122,7 +112,6 @@ async function processSheet(metadata, sheetData) {
   }
 }
 
-
 async function generateExcel(metadata, res) {
   const workbook = await createWorkbook(metadata);
 
@@ -151,7 +140,6 @@ async function createWorkbook(metadata) {
   //mssql.close();
   return workbook;
 }
-
 
 async function addSheet(workbook, sheetData) {
   const worksheet = workbook.addWorksheet(sheetData.name, { properties: { tabColor: { argb: sheetData.color || 'FFFFFFFF' } } });
@@ -365,22 +353,3 @@ async function addSheet(workbook, sheetData) {
   }
 }
 
-// Function to execute a query
-async function executeQuery(query) {
-  try {
-    const pool = await mssql.connect(config); // Connect to the pool for each query
-    const result = await pool.request().query(query);
-    await pool.close(); // Close the pool after each query
-    console.log('result', result);
-    return result.recordset;
-  } catch (error) {
-    console.error('Error executing query:', error);
-    //throw error;
-  }
-}
-
-// Gracefully close the MSSQL connection pool when the Node.js process is terminated
-process.on('SIGINT', async () => {
-  await mssql.close();
-  process.exit();
-});
