@@ -217,7 +217,7 @@ async function addSheet(workbook, sheetData) {
       }
 
       // Adding data validations based on column data type
-      const range = `${columnLetter}8:${columnLetter}1048`;
+      const range = `${columnLetter}7:${columnLetter}1048`;
       if (column.fieldType != 'Readonly') {
       column.dataType = column.fieldType? column.fieldType.toLowerCase() : column.dataType.toLowerCase();
       }
